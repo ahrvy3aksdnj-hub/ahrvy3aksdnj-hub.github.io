@@ -1,218 +1,144 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>AI 메모장</title>
+  <title>hub</title>
 
   <style>
     body {
       margin: 0;
       font-family: Arial, sans-serif;
-      background: #0b0f1a;
+      background: #0a0d14;
       color: white;
-      min-height: 100vh;
-      overflow-x: hidden;
+      height: 100vh;
+      overflow: hidden;
     }
 
-    /* 네온 배경 */
+    /* 네온 분위기 배경 */
     body::before {
       content: "";
       position: fixed;
       inset: 0;
       background:
-        radial-gradient(circle at 20% 20%, rgba(120, 80, 255, 0.15), transparent 40%),
-        radial-gradient(circle at 80% 70%, rgba(0, 200, 255, 0.12), transparent 45%);
+        radial-gradient(circle at 20% 20%, rgba(120, 80, 255, 0.18), transparent 45%),
+        radial-gradient(circle at 80% 70%, rgba(0, 200, 255, 0.12), transparent 50%);
       z-index: 0;
     }
 
-    /* ===== 제목 ===== */
-    h1 {
+    /* 상단 */
+    .title {
       text-align: center;
-      margin-top: 40px;
-      font-size: 28px;
+      margin-top: 50px;
+      font-size: 26px;
       font-weight: bold;
-      text-shadow: 0 0 18px rgba(120,160,255,0.6);
+      letter-spacing: 1px;
+      text-shadow: 0 0 20px rgba(120,160,255,0.5);
       position: relative;
       z-index: 2;
     }
 
-    /* ===== 입력 영역 ===== */
-    textarea {
-      display: block;
-      margin: 20px auto;
-      width: 70%;
-      max-width: 700px;
-      height: 180px;
-
-      background: rgba(255,255,255,0.06);
-      border: 1px solid rgba(120,160,255,0.2);
-      border-radius: 14px;
-
-      color: white;
-      padding: 12px;
-      outline: none;
-
-      backdrop-filter: blur(10px);
-      box-shadow: 0 0 25px rgba(0,0,0,0.4);
-      transition: 0.2s;
-
-      position: relative;
-      z-index: 2;
-      resize: none;
-    }
-
-    textarea:focus {
-      border: 1px solid rgba(120,160,255,0.6);
-      box-shadow: 0 0 25px rgba(120,160,255,0.25);
-    }
-
-    /* ===== 버튼 ===== */
-    button {
-      display: inline-block;
-      margin: 5px;
-      padding: 10px 16px;
-
-      border: 1px solid rgba(120,160,255,0.3);
-      border-radius: 12px;
-
-      background: rgba(120,160,255,0.12);
-      color: white;
-      font-weight: bold;
-
-      cursor: pointer;
-      transition: 0.2s;
-      backdrop-filter: blur(8px);
-    }
-
-    button:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 0 15px rgba(120,160,255,0.4);
-      border: 1px solid rgba(120,160,255,0.7);
-    }
-
-    /* ===== 메모 리스트 ===== */
-    .notes {
-      margin-top: 30px;
-      padding: 20px;
-
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
+    /* 카드 그리드 */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 160px);
+      gap: 18px;
       justify-content: center;
-
+      margin-top: 80px;
       position: relative;
       z-index: 2;
     }
 
-    /* ===== 메모 카드 ===== */
-    .note {
-      width: 180px;
-      min-height: 120px;
+    /* 카드 */
+    .card {
+      width: 160px;
+      height: 120px;
 
-      background: rgba(255,255,255,0.06);
+      background: rgba(255,255,255,0.05);
       border: 1px solid rgba(120,160,255,0.2);
       border-radius: 14px;
-
-      padding: 10px;
-      backdrop-filter: blur(10px);
-
-      box-shadow: 0 0 20px rgba(0,0,0,0.4);
-      transition: 0.2s;
 
       display: flex;
       flex-direction: column;
-      justify-content: space-between;
+      justify-content: center;
+      align-items: center;
+
+      cursor: pointer;
+      transition: 0.2s;
+      backdrop-filter: blur(10px);
     }
 
-    .note:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 0 25px rgba(120,160,255,0.25);
+    .card:hover {
+      transform: translateY(-6px);
+      border: 1px solid rgba(120,160,255,0.6);
+      box-shadow: 0 0 25px rgba(120,160,255,0.3);
     }
 
-    .note textarea {
-      height: 80px;
+    .icon {
+      font-size: 26px;
+      margin-bottom: 6px;
+    }
+
+    .label {
+      font-size: 13px;
+      opacity: 0.8;
+    }
+
+    /* 하단 */
+    .footer {
+      position: absolute;
+      bottom: 20px;
       width: 100%;
-      background: transparent;
-      border: none;
-      color: white;
-      resize: none;
-      margin: 0;
-      box-shadow: none;
-    }
-
-    .note button {
-      margin-top: 5px;
-      font-size: 12px;
+      text-align: center;
+      font-size: 11px;
+      opacity: 0.4;
+      z-index: 2;
     }
   </style>
 </head>
 
 <body>
 
-<h1>📝 AI 메모장</h1>
+<div class="title">hub</div>
 
-<textarea id="input" placeholder="메모 작성..."></textarea>
+<div class="grid">
 
-<div style="text-align:center;">
-  <button onclick="addNote()">저장</button>
+  <div class="card" onclick="go('https://www.naver.com')">
+    <div class="icon">N</div>
+    <div class="label">Naver</div>
+  </div>
+
+  <div class="card" onclick="go('https://www.youtube.com')">
+    <div class="icon">▶</div>
+    <div class="label">YouTube</div>
+  </div>
+
+  <div class="card" onclick="go('https://github.com')">
+    <div class="icon">G</div>
+    <div class="label">GitHub</div>
+  </div>
+
+  <div class="card" onclick="go('https://chat.openai.com')">
+    <div class="icon">AI</div>
+    <div class="label">Chat</div>
+  </div>
+
+  <div class="card" onclick="go('https://www.google.com')">
+    <div class="icon">S</div>
+    <div class="label">Search</div>
+  </div>
+
+  <div class="card" onclick="go('#')">
+    <div class="icon">+</div>
+    <div class="label">Add</div>
+  </div>
+
 </div>
 
-<div class="notes" id="notes"></div>
+<div class="footer">dashboard</div>
 
 <script>
-let input = document.getElementById("input");
-let notesDiv = document.getElementById("notes");
-
-let notes = JSON.parse(localStorage.getItem("notes") || "[]");
-
-function save() {
-  localStorage.setItem("notes", JSON.stringify(notes));
-  render();
+function go(url) {
+  if(url !== '#') window.open(url, '_blank');
 }
-
-function addNote() {
-  if (!input.value.trim()) return;
-
-  notes.push(input.value);
-  input.value = "";
-  save();
-}
-
-function deleteNote(i) {
-  notes.splice(i, 1);
-  save();
-}
-
-function editNote(i) {
-  let v = prompt("수정:", notes[i]);
-  if (v !== null) {
-    notes[i] = v;
-    save();
-  }
-}
-
-function render() {
-  notesDiv.innerHTML = "";
-
-  notes.forEach((n, i) => {
-    let div = document.createElement("div");
-    div.className = "note";
-
-    div.innerHTML = `
-      <textarea onchange="update(${i}, this.value)">${n}</textarea>
-      <button onclick="editNote(${i})">수정</button>
-      <button onclick="deleteNote(${i})">삭제</button>
-    `;
-
-    notesDiv.appendChild(div);
-  });
-}
-
-function update(i, v) {
-  notes[i] = v;
-  save();
-}
-
-render();
 </script>
 
 </body>
