@@ -1,1 +1,221 @@
-<h1>TEST OK</h1>
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>난중</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: Arial;
+  background: #f5f5f5;
+}
+
+/* 상단바 */
+.header {
+  height: 60px;
+  background: #111;
+  color: white;
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+  justify-content: space-between;
+}
+
+.logo {
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 20px;
+}
+
+/* 메뉴 */
+.sidebar {
+  position: fixed;
+  top: 60px;
+  left: 0;
+  width: 180px;
+  height: 100%;
+  background: #222;
+  color: white;
+  padding-top: 20px;
+}
+
+.menu-item {
+  padding: 15px;
+  cursor: pointer;
+}
+
+.menu-item:hover {
+  background: #333;
+}
+
+/* 콘텐츠 */
+.content {
+  margin-left: 200px;
+  padding: 20px;
+}
+
+/* 메모 버튼 */
+.memo-btn {
+  background: #444;
+  color: white;
+  padding: 10px;
+  cursor: pointer;
+}
+
+/* 메모 창 (오버레이) */
+.memo-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.4);
+}
+
+.memo-box {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  background: white;
+  padding: 15px;
+  width: 300px;
+}
+
+textarea {
+  width: 100%;
+  height: 120px;
+}
+
+/* 포스트잇 */
+.note {
+  background: #fff9a6;
+  padding: 10px;
+  margin: 10px;
+  display: inline-block;
+  width: 150px;
+  min-height: 80px;
+  box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+  position: relative;
+}
+
+.note button {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+}
+</style>
+</head>
+
+<body>
+
+<!-- 상단 -->
+<div class="header">
+  <div class="logo" onclick="goHome()">난중</div>
+</div>
+
+<!-- 사이드 메뉴 -->
+<div class="sidebar">
+  <div class="menu-item" onclick="openLink('https://lostark.game.onstove.com')">로아</div>
+  <div class="menu-item" onclick="openLink('https://youtube.com')">유튜브</div>
+  <div class="menu-item" onclick="openLink('https://naver.com')">네이버</div>
+  <div class="menu-item" onclick="openLink('https://music.youtube.com')">뮤직</div>
+  <div class="menu-item" onclick="toggleMemo()">메모</div>
+</div>
+
+<!-- 콘텐츠 -->
+<div class="content">
+  <h2>홈 화면</h2>
+  <div id="notesArea"></div>
+</div>
+
+<!-- 메모 창 -->
+<div class="memo-overlay" id="memoOverlay">
+  <div class="memo-box">
+    <h3>메모</h3>
+    <textarea id="memoText"></textarea>
+    <br><br>
+    <button onclick="saveMemo()">저장</button>
+    <button onclick="toggleMemo()">닫기</button>
+  </div>
+</div>
+
+<script>
+let editIndex = null;
+
+// 홈
+function goHome() {
+  location.reload();
+}
+
+// 링크
+function openLink(url) {
+  window.open(url, "_blank");
+}
+
+// 메모 토글
+function toggleMemo() {
+  const m = document.getElementById("memoOverlay");
+  m.style.display = m.style.display === "block" ? "none" : "block";
+}
+
+// 저장
+function saveMemo() {
+  let text = document.getElementById("memoText").value;
+  if (!text.trim()) return;
+
+  let notes = JSON.parse(localStorage.getItem("notes") || "[]");
+
+  if (editIndex !== null) {
+    notes[editIndex] = text;
+    editIndex = null;
+  } else {
+    notes.push(text);
+  }
+
+  localStorage.setItem("notes", JSON.stringify(notes));
+  document.getElementById("memoText").value = "";
+  toggleMemo();
+  renderNotes();
+}
+
+// 삭제
+function deleteNote(i) {
+  let notes = JSON.parse(localStorage.getItem("notes") || "[]");
+  notes.splice(i, 1);
+  localStorage.setItem("notes", JSON.stringify(notes));
+  renderNotes();
+}
+
+// 수정
+function editNote(i) {
+  let notes = JSON.parse(localStorage.getItem("notes") || "[]");
+  document.getElementById("memoText").value = notes[i];
+  editIndex = i;
+  toggleMemo();
+}
+
+// 렌더
+function renderNotes() {
+  let notes = JSON.parse(localStorage.getItem("notes") || "[]");
+  let area = document.getElementById("notesArea");
+  area.innerHTML = "";
+
+  notes.forEach((n, i) => {
+    area.innerHTML += `
+      <div class="note">
+        ${n}
+        <button onclick="deleteNote(${i})">X</button>
+        <button onclick="editNote(${i})" style="right:25px;">✏️</button>
+      </div>
+    `;
+  });
+}
+
+renderNotes();
+</script>
+
+</body>
+</html>
