@@ -16,54 +16,65 @@ body {
   height: 60px;
   background: #fff;
   border-bottom: 1px solid #000;
-  color: #000;
   display: flex;
   align-items: center;
   padding: 0 20px;
   gap: 15px;
 }
 
-/* 로고 + 이미지 영역 */
+/* 로고 영역 */
 .logo-box {
   display: flex;
   align-items: center;
   gap: 10px;
   cursor: pointer;
+  position: relative;
 }
 
-/* 🔥 난중 (이미지로 변경됨) */
-.logo-img {
-  height: 30px;
+/* 🌊 물 차오르는 로고 */
+.logo-wrap {
+  position: relative;
+  width: 80px;
+  height: 40px;
+}
+
+/* 기본 (Nan1) */
+.logo-base {
+  position: absolute;
+  width: 100%;
+  height: 100%;
   object-fit: contain;
+  transition: opacity 0.3s ease;
 }
 
-/* 기존 hover 느낌 살짝 */
-.logo-img:hover {
-  filter: brightness(0.7);
-  transition: 0.2s;
+/* 변화 (Nan2) */
+.logo-hover {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+
+  /* 처음엔 아래 숨김 */
+  clip-path: inset(100% 0 0 0);
 }
 
-/* 이미지 */
-.main2 {
-  width: 40px;
-  height: 40px;
-  border: 1px solid #000;
+/* hover 시 기본 숨김 */
+.logo-box:hover .logo-base {
+  opacity: 0;
 }
 
-.main1 {
-  width: 40px;
-  height: 40px;
-  border: 1px solid #000;
-  display: none;
+/* 🌊 물 차오르기 애니메이션 */
+.logo-box:hover .logo-hover {
+  animation: waterFill 0.7s ease forwards;
 }
 
-/* hover 시 이미지 변경 */
-.logo-box:hover .main2 {
-  display: none;
-}
-
-.logo-box:hover .main1 {
-  display: block;
+@keyframes waterFill {
+  0% {
+    clip-path: inset(100% 0 0 0);
+  }
+  100% {
+    clip-path: inset(0 0 0 0);
+  }
 }
 
 /* 사이드바 */
@@ -75,7 +86,6 @@ body {
   height: 100%;
   background: #fff;
   border-right: 1px solid #000;
-  color: #000;
   padding-top: 20px;
 }
 
@@ -93,50 +103,6 @@ body {
   margin-left: 200px;
   padding: 20px;
 }
-
-/* 메모 */
-.memo-overlay {
-  display: none;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0,0,0,0.2);
-}
-
-.memo-box {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%,-50%);
-  background: white;
-  border: 1px solid #000;
-  padding: 15px;
-  width: 300px;
-}
-
-textarea {
-  width: 100%;
-  height: 120px;
-}
-
-/* 노트 */
-.note {
-  border: 1px solid #000;
-  padding: 10px;
-  margin: 10px;
-  display: inline-block;
-  width: 150px;
-  min-height: 80px;
-  position: relative;
-}
-
-.note button {
-  position: absolute;
-  top: 5px;
-  right: 5px;
-}
 </style>
 </head>
 
@@ -145,14 +111,13 @@ textarea {
 <!-- 상단 -->
 <div class="header">
 
-  <!-- 로고 + 이미지 -->
+  <!-- 로고 -->
   <div class="logo-box" onclick="goHome()">
 
-    <!-- 🔥 여기만 이미지로 변경 -->
-    <img class="logo-img" src="images/Nan1.png" alt="난중">
-
-    <img class="main2" src="images/main2.jpg" alt="main2">
-    <img class="main1" src="images/main1.gif" alt="main1">
+    <div class="logo-wrap">
+      <img class="logo-base" src="images/Nan1.png" alt="Nan1">
+      <img class="logo-hover" src="images/Nan2.png" alt="Nan2">
+    </div>
 
   </div>
 
@@ -160,96 +125,21 @@ textarea {
 
 <!-- 사이드 -->
 <div class="sidebar">
-  <div class="menu-item" onclick="openLink('https://lostark.game.onstove.com')">로아</div>
-  <div class="menu-item" onclick="openLink('https://youtube.com')">유튜브</div>
-  <div class="menu-item" onclick="openLink('https://naver.com')">네이버</div>
-  <div class="menu-item" onclick="openLink('https://music.youtube.com')">뮤직</div>
-  <div class="menu-item" onclick="toggleMemo()">메모</div>
+  <div class="menu-item">로아</div>
+  <div class="menu-item">유튜브</div>
+  <div class="menu-item">네이버</div>
+  <div class="menu-item">뮤직</div>
 </div>
 
 <!-- 콘텐츠 -->
 <div class="content">
   <h2>홈 화면</h2>
-  <div id="notesArea"></div>
-</div>
-
-<!-- 메모 -->
-<div class="memo-overlay" id="memoOverlay">
-  <div class="memo-box">
-    <h3>메모</h3>
-    <textarea id="memoText"></textarea>
-    <br><br>
-    <button onclick="saveMemo()">저장</button>
-    <button onclick="toggleMemo()">닫기</button>
-  </div>
 </div>
 
 <script>
-let editIndex = null;
-
 function goHome() {
   location.reload();
 }
-
-function openLink(url) {
-  window.open(url, "_blank");
-}
-
-function toggleMemo() {
-  const m = document.getElementById("memoOverlay");
-  m.style.display = m.style.display === "block" ? "none" : "block";
-}
-
-function saveMemo() {
-  let text = document.getElementById("memoText").value;
-  if (!text.trim()) return;
-
-  let notes = JSON.parse(localStorage.getItem("notes") || "[]");
-
-  if (editIndex !== null) {
-    notes[editIndex] = text;
-    editIndex = null;
-  } else {
-    notes.push(text);
-  }
-
-  localStorage.setItem("notes", JSON.stringify(notes));
-  document.getElementById("memoText").value = "";
-  toggleMemo();
-  renderNotes();
-}
-
-function deleteNote(i) {
-  let notes = JSON.parse(localStorage.getItem("notes") || "[]");
-  notes.splice(i, 1);
-  localStorage.setItem("notes", JSON.stringify(notes));
-  renderNotes();
-}
-
-function editNote(i) {
-  let notes = JSON.parse(localStorage.getItem("notes") || "[]");
-  document.getElementById("memoText").value = notes[i];
-  editIndex = i;
-  toggleMemo();
-}
-
-function renderNotes() {
-  let notes = JSON.parse(localStorage.getItem("notes") || "[]");
-  let area = document.getElementById("notesArea");
-  area.innerHTML = "";
-
-  notes.forEach((n, i) => {
-    area.innerHTML += `
-      <div class="note">
-        ${n}
-        <button onclick="deleteNote(${i})">X</button>
-        <button onclick="editNote(${i})" style="right:25px;">✏️</button>
-      </div>
-    `;
-  });
-}
-
-renderNotes();
 </script>
 
 </body>
