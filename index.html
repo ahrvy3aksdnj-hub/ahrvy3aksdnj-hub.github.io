@@ -4,6 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>난중</title>
+
 <style>
   body {
     margin: 0;
@@ -50,22 +51,24 @@
     object-fit: cover;
   }
 
-  /* MAIN AREA */
   .main {
     margin-top: 80px;
     padding: 20px;
   }
 </style>
 </head>
+
 <body>
 
 <!-- HEADER -->
 <div class="header">
   <div class="logo-text" id="logoText" onclick="goHome()">난중</div>
+
+  <!-- 🔥 여기 이미지 경로 수정 -->
   <img
     id="logoImg"
     class="logo-img"
-    src="https://i2.ruliweb.com/ori/26/01/29/19c089dafa7533147.gif?icon=4549"
+    src="assets/img/mainhosino1.gif"
     alt="logo"
   />
 </div>
@@ -80,8 +83,9 @@
   const logoText = document.getElementById('logoText');
   const logoImg = document.getElementById('logoImg');
 
-  const defaultImg = "https://i2.ruliweb.com/ori/26/01/29/19c089dafa7533147.gif?icon=4549";
-  const hoverImg = "https://i3.ruliweb.com/img/26/02/22/19c84108eba5a09eb.webp";
+  // 🔥 GitHub 내부 이미지로 변경
+  const defaultImg = "assets/img/mainhosino1.gif";
+  const hoverImg = "assets/img/mainhosino2.jpg";
 
   logoText.addEventListener('mouseenter', () => {
     logoImg.src = hoverImg;
