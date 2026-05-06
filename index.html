@@ -14,19 +14,21 @@
       overflow-x: hidden;
     }
 
+    /* 어두운 오버레이 (레이어 정리 완료) */
     body::before {
       content: "";
       position: fixed;
       inset: 0;
       background: rgba(0,0,0,0.55);
-      z-index: -1;
+      z-index: 0;
     }
 
-    /* ===== 사이드 메모 버튼 ===== */
+    /* ===== 메모 열기 버튼 ===== */
     .launcher {
       position: fixed;
       left: 10px;
       top: 10px;
+      z-index: 20;
       background: rgba(0,0,0,0.5);
       padding: 10px 14px;
       border-radius: 12px;
@@ -36,7 +38,7 @@
       user-select: none;
     }
 
-    /* ===== 메모 패널 ===== */
+    /* ===== 사이드 패널 ===== */
     .panel {
       position: fixed;
       left: 0;
@@ -49,6 +51,8 @@
       transition: 0.3s;
       padding: 15px;
       box-sizing: border-box;
+      z-index: 10;
+      overflow: hidden;
     }
 
     .panel.open {
@@ -78,13 +82,15 @@
       font-weight: bold;
     }
 
-    /* ===== 저장 메모 영역 ===== */
+    /* ===== 저장된 메모 ===== */
     .notes {
       margin-left: 340px;
       padding: 20px;
       display: flex;
       flex-wrap: wrap;
       gap: 12px;
+      position: relative;
+      z-index: 5;
     }
 
     .note {
@@ -117,12 +123,12 @@
 
 <body>
 
-<!-- ===== 메모 열기 버튼 ===== -->
+<!-- ===== 메모 버튼 ===== -->
 <div class="launcher" onclick="togglePanel()">
   📝 메모 >>
 </div>
 
-<!-- ===== 메모 패널 ===== -->
+<!-- ===== 패널 ===== -->
 <div class="panel" id="panel">
 
   <textarea id="input" placeholder="메모 작성..."></textarea>
@@ -130,7 +136,7 @@
 
 </div>
 
-<!-- ===== 저장된 메모 ===== -->
+<!-- ===== 저장 메모 ===== -->
 <div class="notes" id="notes"></div>
 
 <script>
