@@ -22,10 +22,45 @@ body {
   justify-content: space-between;
 }
 
+/* 난중 */
 .logo {
   cursor: pointer;
   font-weight: bold;
   font-size: 20px;
+}
+
+/* main 이미지 박스 */
+.main-box {
+  position: relative;
+  width: 200px;
+  height: 200px;
+  cursor: pointer;
+}
+
+/* 기본 이미지 (main2) */
+.main2 {
+  width: 200px;
+  height: 200px;
+  display: block;
+}
+
+/* hover 이미지 (main1) */
+.main1 {
+  width: 200px;
+  height: 200px;
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+/* hover 전환 */
+.main-box:hover .main2 {
+  display: none;
+}
+
+.main-box:hover .main1 {
+  display: block;
 }
 
 /* 메뉴 */
@@ -63,7 +98,7 @@ body {
   cursor: pointer;
 }
 
-/* 메모 창 (오버레이) */
+/* 메모 창 */
 .memo-overlay {
   display: none;
   position: fixed;
@@ -114,6 +149,12 @@ textarea {
 <!-- 상단 -->
 <div class="header">
   <div class="logo" onclick="goHome()">난중</div>
+
+  <!-- main 이미지 -->
+  <a href="index.html" class="main-box">
+    <img class="main2" src="images/main2.png" alt="main2">
+    <img class="main1" src="images/main1.png" alt="main1">
+  </a>
 </div>
 
 <!-- 사이드 메뉴 -->
