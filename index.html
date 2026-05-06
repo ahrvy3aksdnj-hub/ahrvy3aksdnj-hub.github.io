@@ -1,144 +1,99 @@
 <!DOCTYPE html>
-<html>
+<html lang="ko">
 <head>
-  <title>hub</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>난중</title>
+<style>
+  body {
+    margin: 0;
+    background: white;
+    font-family: Arial, sans-serif;
+  }
 
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #0a0d14;
-      color: white;
-      height: 100vh;
-      overflow: hidden;
-    }
+  /* HEADER */
+  .header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    height: 60px;
+    padding-left: 10px;
+    background: white;
+    z-index: 999;
+  }
 
-    /* 네온 분위기 배경 */
-    body::before {
-      content: "";
-      position: fixed;
-      inset: 0;
-      background:
-        radial-gradient(circle at 20% 20%, rgba(120, 80, 255, 0.18), transparent 45%),
-        radial-gradient(circle at 80% 70%, rgba(0, 200, 255, 0.12), transparent 50%);
-      z-index: 0;
-    }
+  /* TEXT AREA 120x60 */
+  .logo-text {
+    width: 120px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 20px;
+    cursor: pointer;
+    user-select: none;
+    transition: 0.2s ease;
+  }
 
-    /* 상단 */
-    .title {
-      text-align: center;
-      margin-top: 50px;
-      font-size: 26px;
-      font-weight: bold;
-      letter-spacing: 1px;
-      text-shadow: 0 0 20px rgba(120,160,255,0.5);
-      position: relative;
-      z-index: 2;
-    }
+  .logo-text:hover {
+    transform: scale(1.05);
+    color: #222;
+  }
 
-    /* 카드 그리드 */
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(3, 160px);
-      gap: 18px;
-      justify-content: center;
-      margin-top: 80px;
-      position: relative;
-      z-index: 2;
-    }
+  /* IMAGE 60x60 */
+  .logo-img {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+  }
 
-    /* 카드 */
-    .card {
-      width: 160px;
-      height: 120px;
-
-      background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(120,160,255,0.2);
-      border-radius: 14px;
-
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-
-      cursor: pointer;
-      transition: 0.2s;
-      backdrop-filter: blur(10px);
-    }
-
-    .card:hover {
-      transform: translateY(-6px);
-      border: 1px solid rgba(120,160,255,0.6);
-      box-shadow: 0 0 25px rgba(120,160,255,0.3);
-    }
-
-    .icon {
-      font-size: 26px;
-      margin-bottom: 6px;
-    }
-
-    .label {
-      font-size: 13px;
-      opacity: 0.8;
-    }
-
-    /* 하단 */
-    .footer {
-      position: absolute;
-      bottom: 20px;
-      width: 100%;
-      text-align: center;
-      font-size: 11px;
-      opacity: 0.4;
-      z-index: 2;
-    }
-  </style>
+  /* MAIN AREA */
+  .main {
+    margin-top: 80px;
+    padding: 20px;
+  }
+</style>
 </head>
-
 <body>
 
-<div class="title">hub</div>
-
-<div class="grid">
-
-  <div class="card" onclick="go('https://www.naver.com')">
-    <div class="icon">N</div>
-    <div class="label">Naver</div>
-  </div>
-
-  <div class="card" onclick="go('https://www.youtube.com')">
-    <div class="icon">▶</div>
-    <div class="label">YouTube</div>
-  </div>
-
-  <div class="card" onclick="go('https://github.com')">
-    <div class="icon">G</div>
-    <div class="label">GitHub</div>
-  </div>
-
-  <div class="card" onclick="go('https://chat.openai.com')">
-    <div class="icon">AI</div>
-    <div class="label">Chat</div>
-  </div>
-
-  <div class="card" onclick="go('https://www.google.com')">
-    <div class="icon">S</div>
-    <div class="label">Search</div>
-  </div>
-
-  <div class="card" onclick="go('#')">
-    <div class="icon">+</div>
-    <div class="label">Add</div>
-  </div>
-
+<!-- HEADER -->
+<div class="header">
+  <div class="logo-text" id="logoText" onclick="goHome()">난중</div>
+  <img
+    id="logoImg"
+    class="logo-img"
+    src="https://i2.ruliweb.com/ori/26/01/29/19c089dafa7533147.gif?icon=4549"
+    alt="logo"
+  />
 </div>
 
-<div class="footer">dashboard</div>
+<!-- MAIN -->
+<div class="main">
+  <h1>메인 화면</h1>
+  <p>여기에 사이트 콘텐츠가 들어갑니다.</p>
+</div>
 
 <script>
-function go(url) {
-  if(url !== '#') window.open(url, '_blank');
-}
+  const logoText = document.getElementById('logoText');
+  const logoImg = document.getElementById('logoImg');
+
+  const defaultImg = "https://i2.ruliweb.com/ori/26/01/29/19c089dafa7533147.gif?icon=4549";
+  const hoverImg = "https://i3.ruliweb.com/img/26/02/22/19c84108eba5a09eb.webp";
+
+  logoText.addEventListener('mouseenter', () => {
+    logoImg.src = hoverImg;
+  });
+
+  logoText.addEventListener('mouseleave', () => {
+    logoImg.src = defaultImg;
+  });
+
+  function goHome() {
+    window.location.href = "/";
+  }
 </script>
 
 </body>
