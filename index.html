@@ -8,60 +8,55 @@
 body {
   margin: 0;
   font-family: Arial;
-  background: #f5f5f5;
+  background: #fff;
 }
 
 /* 상단바 */
 .header {
   height: 60px;
-  background: #111;
-  color: white;
+  background: #fff;
+  border-bottom: 1px solid #000;
+  color: #000;
   display: flex;
   align-items: center;
   padding: 0 20px;
-  justify-content: space-between;
+  gap: 15px;
+}
+
+/* 난중 + hover 영역 */
+.logo-box {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
 }
 
 /* 난중 */
 .logo {
-  cursor: pointer;
   font-weight: bold;
   font-size: 20px;
 }
 
-/* 이미지 hover 박스 */
-.main-box {
-  position: relative;
-  width: 200px;
-  height: 200px;
-  cursor: pointer;
-}
-
-/* 기본 이미지 */
+/* 이미지 */
 .main2 {
-  width: 200px;
-  height: 200px;
-  display: block;
+  width: 40px;
+  height: 40px;
   border: 1px solid #000;
 }
 
-/* hover 이미지 */
 .main1 {
-  width: 200px;
-  height: 200px;
-  display: none;
-  position: absolute;
-  top: 0;
-  left: 0;
+  width: 40px;
+  height: 40px;
   border: 1px solid #000;
-}
-
-/* hover 전환 */
-.main-box:hover .main2 {
   display: none;
 }
 
-.main-box:hover .main1 {
+/* hover 시 이미지 변경 */
+.logo-box:hover .main2 {
+  display: none;
+}
+
+.logo-box:hover .main1 {
   display: block;
 }
 
@@ -72,8 +67,9 @@ body {
   left: 0;
   width: 180px;
   height: 100%;
-  background: #222;
-  color: white;
+  background: #fff;
+  border-right: 1px solid #000;
+  color: #000;
   padding-top: 20px;
 }
 
@@ -83,7 +79,7 @@ body {
 }
 
 .menu-item:hover {
-  background: #333;
+  background: #eee;
 }
 
 /* 콘텐츠 */
@@ -92,7 +88,7 @@ body {
   padding: 20px;
 }
 
-/* 메모 오버레이 */
+/* 메모 */
 .memo-overlay {
   display: none;
   position: fixed;
@@ -100,7 +96,7 @@ body {
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0,0,0,0.4);
+  background: rgba(0,0,0,0.2);
 }
 
 .memo-box {
@@ -109,6 +105,7 @@ body {
   left: 50%;
   transform: translate(-50%,-50%);
   background: white;
+  border: 1px solid #000;
   padding: 15px;
   width: 300px;
 }
@@ -120,13 +117,12 @@ textarea {
 
 /* 노트 */
 .note {
-  background: #fff9a6;
+  border: 1px solid #000;
   padding: 10px;
   margin: 10px;
   display: inline-block;
   width: 150px;
   min-height: 80px;
-  box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
   position: relative;
 }
 
@@ -142,13 +138,15 @@ textarea {
 
 <!-- 상단 -->
 <div class="header">
-  <div class="logo" onclick="goHome()">난중</div>
 
-  <!-- 이미지 영역 -->
-  <a href="index.html" class="main-box">
+  <!-- 난중 + 이미지 -->
+  <div class="logo-box" onclick="goHome()">
+    <div class="logo">난중</div>
+
     <img class="main2" src="images/main2.jpg" alt="main2">
     <img class="main1" src="images/main1.gif" alt="main1">
-  </a>
+  </div>
+
 </div>
 
 <!-- 사이드 -->
