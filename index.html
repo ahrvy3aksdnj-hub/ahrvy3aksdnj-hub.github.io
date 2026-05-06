@@ -12,6 +12,7 @@
     font-family: Arial, sans-serif;
   }
 
+  /* HEADER */
   .header {
     position: fixed;
     top: 0;
@@ -63,10 +64,10 @@
 
 <body>
 
+<!-- HEADER -->
 <div class="header">
   <div class="logo-text" id="logoText">난중</div>
 
-  <!-- 🔥 안정형 경로 -->
   <img
     id="logoImg"
     class="logo-img"
@@ -75,6 +76,7 @@
   />
 </div>
 
+<!-- MAIN -->
 <div class="main">
   <h1>메인 화면</h1>
   <p>여기에 사이트 콘텐츠가 들어갑니다.</p>
@@ -86,10 +88,11 @@
   const logoText = document.getElementById('logoText');
   const logoImg = document.getElementById('logoImg');
 
-  // 🔥 안전 경로 (./ 붙여서 GitHub Pages 대응)
+  // 🔥 안정 경로
   const defaultImg = "./assets/img/mainhosino1.gif";
   const hoverImg = "./assets/img/mainhosino2.jpg";
 
+  // hover 이미지 전환
   logoText.addEventListener('mouseenter', () => {
     logoImg.src = hoverImg;
   });
@@ -98,11 +101,12 @@
     logoImg.src = defaultImg;
   });
 
-  // 🔥 GitHub Pages 안전 홈 이동
+  // 홈 이동 (GitHub Pages 안전 방식)
   logoText.onclick = () => {
     window.location.href = "/";
   };
 
+  // 페이지 이동
   function goPage1() {
     window.location.href = "./page1.html";
   }
