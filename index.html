@@ -3,32 +3,35 @@
 <head>
   <title>AI 메모장</title>
   <style>
-    body {
-      background:#0f172a;
-      color:white;
-      text-align:center;
-      font-family:Arial;
-      margin-top:50px;
-    }
-    textarea {
-      width:80%;
-      height:200px;
-      border-radius:10px;
-      padding:10px;
-      font-size:16px;
-    }
-    button {
-      margin-top:10px;
-      padding:10px 20px;
-      border:none;
-      border-radius:10px;
-      background:#38bdf8;
-      font-weight:bold;
-      cursor:pointer;
-    }
-  </style>
-</head>
-<body>
+    <body>
+
+<h1>📝 내 메모장</h1>
+
+<textarea id="memo" placeholder="여기에 메모 쓰기..."></textarea>
+
+<br>
+
+<button onclick="saveMemo()">저장</button>
+<button onclick="clearMemo()">초기화</button>
+
+<script>
+  const memo = document.getElementById("memo");
+
+  // 불러오기
+  memo.value = localStorage.getItem("mymemo") || "";
+
+  function saveMemo() {
+    localStorage.setItem("mymemo", memo.value);
+    alert("저장됨!");
+  }
+
+  function clearMemo() {
+    localStorage.removeItem("mymemo");
+    memo.value = "";
+  }
+</script>
+
+</body>
 
 <h1>📝 내 메모장</h1>
 
