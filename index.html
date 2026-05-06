@@ -2,8 +2,56 @@
 <html>
 <head>
   <title>AI 메모장</title>
+
   <style>
-    <body>
+    body {
+      background: url("https://i.pinimg.com/736x/f3/9d/fc/f39dfcbfebe79681d8197408e8633e40.jpg") no-repeat center center fixed;
+      background-size: cover;
+      color: white;
+      text-align: center;
+      font-family: Arial;
+      margin-top: 50px;
+      position: relative;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      top:0;
+      left:0;
+      width:100%;
+      height:100%;
+      background: rgba(0,0,0,0.45);
+      z-index: -1;
+    }
+
+    textarea {
+      width: 80%;
+      height: 200px;
+      border-radius: 10px;
+      padding: 10px;
+      font-size: 16px;
+      border: none;
+      outline: none;
+    }
+
+    button {
+      margin-top: 10px;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 10px;
+      background: #38bdf8;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    button:hover {
+      transform: scale(1.05);
+    }
+  </style>
+</head>
+
+<body>
 
 <h1>📝 내 메모장</h1>
 
@@ -17,35 +65,6 @@
 <script>
   const memo = document.getElementById("memo");
 
-  // 불러오기
-  memo.value = localStorage.getItem("mymemo") || "";
-
-  function saveMemo() {
-    localStorage.setItem("mymemo", memo.value);
-    alert("저장됨!");
-  }
-
-  function clearMemo() {
-    localStorage.removeItem("mymemo");
-    memo.value = "";
-  }
-</script>
-
-</body>
-
-<h1>📝 내 메모장</h1>
-
-<textarea id="memo" placeholder="여기에 메모 쓰기..."></textarea>
-
-<br>
-
-<button onclick="saveMemo()">저장</button>
-<button onclick="clearMemo()">초기화</button>
-
-<script>
-  const memo = document.getElementById("memo");
-
-  // 불러오기
   memo.value = localStorage.getItem("mymemo") || "";
 
   function saveMemo() {
