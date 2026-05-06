@@ -5,77 +5,181 @@
 
   <style>
     body {
+      margin: 0;
+      font-family: Arial;
       background: url("https://i.pinimg.com/736x/f3/9d/fc/f39dfcbfebe79681d8197408e8633e40.jpg") no-repeat center center fixed;
       background-size: cover;
+      overflow-x: hidden;
       color: white;
-      text-align: center;
-      font-family: Arial;
-      margin-top: 50px;
-      position: relative;
     }
 
     body::before {
       content: "";
       position: fixed;
-      top:0;
-      left:0;
-      width:100%;
-      height:100%;
-      background: rgba(0,0,0,0.45);
+      inset: 0;
+      background: rgba(0,0,0,0.55);
       z-index: -1;
     }
 
-    textarea {
-      width: 80%;
-      height: 200px;
-      border-radius: 10px;
+    /* ===== 사이드 패널 ===== */
+    .panel {
+      position: fixed;
+      left: 0;
+      top: 0;
+      height: 100%;
+      width: 60px;
+      background: rgba(0,0,0,0.5);
+      backdrop-filter: blur(10px);
+      transition: 0.3s;
+      overflow: hidden;
       padding: 10px;
-      font-size: 16px;
+    }
+
+    .panel.open {
+      width: 300px;
+    }
+
+    .toggle {
+      cursor: pointer;
+      font-size: 22px;
+      margin-bottom: 10px;
+      text-align: center;
+    }
+
+    textarea {
+      width: 100%;
+      height: 120px;
+      border-radius: 10px;
       border: none;
+      padding: 10px;
+      resize: none;
       outline: none;
+      background: rgba(255,255,255,0.1);
+      color: white;
     }
 
     button {
-      margin-top: 10px;
-      padding: 10px 20px;
+      margin-top: 8px;
+      padding: 8px;
+      width: 100%;
       border: none;
       border-radius: 10px;
+      cursor: pointer;
       background: #38bdf8;
       font-weight: bold;
-      cursor: pointer;
     }
 
-    button:hover {
-      transform: scale(1.05);
+    /* ===== 포스트잇 영역 ===== */
+    .notes {
+      margin-left: 80px;
+      padding: 20px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+
+    .note {
+      width: 180px;
+      min-height: 120px;
+      background: rgba(255,255,255,0.15);
+      backdrop-filter: blur(10px);
+      padding: 10px;
+      border-radius: 12px;
+      position: relative;
+      box-shadow: 0 0 15px rgba(0,0,0,0.3);
+    }
+
+    .note textarea {
+      width: 100%;
+      height: 80px;
+      background: transparent;
+      border: none;
+      color: white;
+    }
+
+    .note button {
+      width: 48%;
+      margin-top: 5px;
+      font-size: 12px;
     }
   </style>
 </head>
 
 <body>
 
-<h1>📝 내 메모장</h1>
+<!-- ===== 왼쪽 패널 ===== -->
+<div class="panel" id="panel">
 
-<textarea id="memo" placeholder="여기에 메모 쓰기..."></textarea>
+  <div class="toggle" onclick="togglePanel()">➤</div>
 
-<br>
+  <textarea id="input" placeholder="메모 작성..."></textarea>
+  <button onclick="addNote()">저장</button>
 
-<button onclick="saveMemo()">저장</button>
-<button onclick="clearMemo()">초기화</button>
+</div>
+
+<!-- ===== 메모 리스트 ===== -->
+<div class="notes" id="notes"></div>
 
 <script>
-  const memo = document.getElementById("memo");
+let panel = document.getElementById("panel");
+let input = document.getElementById("input");
+let notesDiv = document.getElementById("notes");
 
-  memo.value = localStorage.getItem("mymemo") || "";
+let notes = JSON.parse(localStorage.getItem("notes") || "[]");
 
-  function saveMemo() {
-    localStorage.setItem("mymemo", memo.value);
-    alert("저장됨!");
+function togglePanel() {
+  panel.classList.toggle("open");
+}
+
+function save() {
+  localStorage.setItem("notes", JSON.stringify(notes));
+  render();
+}
+
+function addNote() {
+  if (!input.value.trim()) return;
+
+  notes.push(input.value);
+  input.value = "";
+  save();
+}
+
+function deleteNote(index) {
+  notes.splice(index, 1);
+  save();
+}
+
+function editNote(index) {
+  let newText = prompt("수정:", notes[index]);
+  if (newText !== null) {
+    notes[index] = newText;
+    save();
   }
+}
 
-  function clearMemo() {
-    localStorage.removeItem("mymemo");
-    memo.value = "";
-  }
+function render() {
+  notesDiv.innerHTML = "";
+
+  notes.forEach((n, i) => {
+    let div = document.createElement("div");
+    div.className = "note";
+
+    div.innerHTML = `
+      <textarea onchange="update(${i}, this.value)">${n}</textarea>
+      <button onclick="editNote(${i})">수정</button>
+      <button onclick="deleteNote(${i})">삭제</button>
+    `;
+
+    notesDiv.appendChild(div);
+  });
+}
+
+function update(i, val) {
+  notes[i] = val;
+  save();
+}
+
+render();
 </script>
 
 </body>
