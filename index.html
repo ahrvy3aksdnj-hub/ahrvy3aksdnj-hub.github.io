@@ -23,7 +23,7 @@ body {
   gap: 15px;
 }
 
-/* 난중 + hover 영역 */
+/* 로고 + 이미지 영역 */
 .logo-box {
   display: flex;
   align-items: center;
@@ -31,10 +31,16 @@ body {
   cursor: pointer;
 }
 
-/* 난중 */
-.logo {
-  font-weight: bold;
-  font-size: 20px;
+/* 🔥 난중 (이미지로 변경됨) */
+.logo-img {
+  height: 30px;
+  object-fit: contain;
+}
+
+/* 기존 hover 느낌 살짝 */
+.logo-img:hover {
+  filter: brightness(0.7);
+  transition: 0.2s;
 }
 
 /* 이미지 */
@@ -139,12 +145,15 @@ textarea {
 <!-- 상단 -->
 <div class="header">
 
-  <!-- 난중 + 이미지 -->
+  <!-- 로고 + 이미지 -->
   <div class="logo-box" onclick="goHome()">
-    <div class="logo">난중</div>
+
+    <!-- 🔥 여기만 이미지로 변경 -->
+    <img class="logo-img" src="images/Nan1.png" alt="난중">
 
     <img class="main2" src="images/main2.jpg" alt="main2">
     <img class="main1" src="images/main1.gif" alt="main1">
+
   </div>
 
 </div>
