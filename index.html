@@ -9,8 +9,9 @@
       font-family: Arial;
       background: url("https://i.pinimg.com/736x/f3/9d/fc/f39dfcbfebe79681d8197408e8633e40.jpg") no-repeat center center fixed;
       background-size: cover;
-      overflow-x: hidden;
       color: white;
+      min-height: 100vh;
+      overflow-x: hidden;
     }
 
     body::before {
@@ -21,29 +22,37 @@
       z-index: -1;
     }
 
-    /* ===== 사이드 패널 ===== */
+    /* ===== 사이드 메모 버튼 ===== */
+    .launcher {
+      position: fixed;
+      left: 10px;
+      top: 10px;
+      background: rgba(0,0,0,0.5);
+      padding: 10px 14px;
+      border-radius: 12px;
+      cursor: pointer;
+      backdrop-filter: blur(10px);
+      font-weight: bold;
+      user-select: none;
+    }
+
+    /* ===== 메모 패널 ===== */
     .panel {
       position: fixed;
       left: 0;
       top: 0;
+      width: 320px;
       height: 100%;
-      width: 60px;
-      background: rgba(0,0,0,0.5);
-      backdrop-filter: blur(10px);
+      background: rgba(0,0,0,0.55);
+      backdrop-filter: blur(12px);
+      transform: translateX(-100%);
       transition: 0.3s;
-      overflow: hidden;
-      padding: 10px;
+      padding: 15px;
+      box-sizing: border-box;
     }
 
     .panel.open {
-      width: 300px;
-    }
-
-    .toggle {
-      cursor: pointer;
-      font-size: 22px;
-      margin-bottom: 10px;
-      text-align: center;
+      transform: translateX(0);
     }
 
     textarea {
@@ -60,8 +69,8 @@
 
     button {
       margin-top: 8px;
-      padding: 8px;
       width: 100%;
+      padding: 8px;
       border: none;
       border-radius: 10px;
       cursor: pointer;
@@ -69,36 +78,37 @@
       font-weight: bold;
     }
 
-    /* ===== 포스트잇 영역 ===== */
+    /* ===== 저장 메모 영역 ===== */
     .notes {
-      margin-left: 80px;
+      margin-left: 340px;
       padding: 20px;
       display: flex;
       flex-wrap: wrap;
-      gap: 15px;
+      gap: 12px;
     }
 
     .note {
       width: 180px;
       min-height: 120px;
-      background: rgba(255,255,255,0.15);
+      background: rgba(255,255,255,0.12);
       backdrop-filter: blur(10px);
-      padding: 10px;
       border-radius: 12px;
-      position: relative;
+      padding: 10px;
       box-shadow: 0 0 15px rgba(0,0,0,0.3);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
     }
 
     .note textarea {
-      width: 100%;
       height: 80px;
       background: transparent;
       border: none;
       color: white;
+      resize: none;
     }
 
     .note button {
-      width: 48%;
       margin-top: 5px;
       font-size: 12px;
     }
@@ -107,17 +117,20 @@
 
 <body>
 
-<!-- ===== 왼쪽 패널 ===== -->
-<div class="panel" id="panel">
+<!-- ===== 메모 열기 버튼 ===== -->
+<div class="launcher" onclick="togglePanel()">
+  📝 메모 >>
+</div>
 
-  <div class="toggle" onclick="togglePanel()">➤</div>
+<!-- ===== 메모 패널 ===== -->
+<div class="panel" id="panel">
 
   <textarea id="input" placeholder="메모 작성..."></textarea>
   <button onclick="addNote()">저장</button>
 
 </div>
 
-<!-- ===== 메모 리스트 ===== -->
+<!-- ===== 저장된 메모 ===== -->
 <div class="notes" id="notes"></div>
 
 <script>
@@ -144,15 +157,15 @@ function addNote() {
   save();
 }
 
-function deleteNote(index) {
-  notes.splice(index, 1);
+function deleteNote(i) {
+  notes.splice(i, 1);
   save();
 }
 
-function editNote(index) {
-  let newText = prompt("수정:", notes[index]);
-  if (newText !== null) {
-    notes[index] = newText;
+function editNote(i) {
+  let v = prompt("수정:", notes[i]);
+  if (v !== null) {
+    notes[i] = v;
     save();
   }
 }
@@ -174,8 +187,8 @@ function render() {
   });
 }
 
-function update(i, val) {
-  notes[i] = val;
+function update(i, v) {
+  notes[i] = v;
   save();
 }
 
