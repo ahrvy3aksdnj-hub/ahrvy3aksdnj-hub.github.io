@@ -29,7 +29,7 @@ body {
   font-size: 20px;
 }
 
-/* main 이미지 박스 */
+/* 이미지 hover 박스 */
 .main-box {
   position: relative;
   width: 200px;
@@ -37,14 +37,15 @@ body {
   cursor: pointer;
 }
 
-/* 기본 이미지 (main2) */
+/* 기본 이미지 */
 .main2 {
   width: 200px;
   height: 200px;
   display: block;
+  border: 1px solid #000;
 }
 
-/* hover 이미지 (main1) */
+/* hover 이미지 */
 .main1 {
   width: 200px;
   height: 200px;
@@ -52,6 +53,7 @@ body {
   position: absolute;
   top: 0;
   left: 0;
+  border: 1px solid #000;
 }
 
 /* hover 전환 */
@@ -63,7 +65,7 @@ body {
   display: block;
 }
 
-/* 메뉴 */
+/* 사이드바 */
 .sidebar {
   position: fixed;
   top: 60px;
@@ -90,15 +92,7 @@ body {
   padding: 20px;
 }
 
-/* 메모 버튼 */
-.memo-btn {
-  background: #444;
-  color: white;
-  padding: 10px;
-  cursor: pointer;
-}
-
-/* 메모 창 */
+/* 메모 오버레이 */
 .memo-overlay {
   display: none;
   position: fixed;
@@ -124,7 +118,7 @@ textarea {
   height: 120px;
 }
 
-/* 포스트잇 */
+/* 노트 */
 .note {
   background: #fff9a6;
   padding: 10px;
@@ -150,14 +144,14 @@ textarea {
 <div class="header">
   <div class="logo" onclick="goHome()">난중</div>
 
-  <!-- main 이미지 -->
+  <!-- 이미지 영역 -->
   <a href="index.html" class="main-box">
     <img class="main2" src="images/main2.png" alt="main2">
     <img class="main1" src="images/main1.png" alt="main1">
   </a>
 </div>
 
-<!-- 사이드 메뉴 -->
+<!-- 사이드 -->
 <div class="sidebar">
   <div class="menu-item" onclick="openLink('https://lostark.game.onstove.com')">로아</div>
   <div class="menu-item" onclick="openLink('https://youtube.com')">유튜브</div>
@@ -172,7 +166,7 @@ textarea {
   <div id="notesArea"></div>
 </div>
 
-<!-- 메모 창 -->
+<!-- 메모 -->
 <div class="memo-overlay" id="memoOverlay">
   <div class="memo-box">
     <h3>메모</h3>
@@ -186,23 +180,19 @@ textarea {
 <script>
 let editIndex = null;
 
-// 홈
 function goHome() {
   location.reload();
 }
 
-// 링크
 function openLink(url) {
   window.open(url, "_blank");
 }
 
-// 메모 토글
 function toggleMemo() {
   const m = document.getElementById("memoOverlay");
   m.style.display = m.style.display === "block" ? "none" : "block";
 }
 
-// 저장
 function saveMemo() {
   let text = document.getElementById("memoText").value;
   if (!text.trim()) return;
@@ -222,7 +212,6 @@ function saveMemo() {
   renderNotes();
 }
 
-// 삭제
 function deleteNote(i) {
   let notes = JSON.parse(localStorage.getItem("notes") || "[]");
   notes.splice(i, 1);
@@ -230,7 +219,6 @@ function deleteNote(i) {
   renderNotes();
 }
 
-// 수정
 function editNote(i) {
   let notes = JSON.parse(localStorage.getItem("notes") || "[]");
   document.getElementById("memoText").value = notes[i];
@@ -238,7 +226,6 @@ function editNote(i) {
   toggleMemo();
 }
 
-// 렌더
 function renderNotes() {
   let notes = JSON.parse(localStorage.getItem("notes") || "[]");
   let area = document.getElementById("notesArea");
