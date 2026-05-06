@@ -12,7 +12,6 @@
     font-family: Arial, sans-serif;
   }
 
-  /* HEADER */
   .header {
     position: fixed;
     top: 0;
@@ -64,25 +63,22 @@
 
 <body>
 
-<!-- HEADER -->
 <div class="header">
-  <div class="logo-text" id="logoText" onclick="goHome()">난중</div>
+  <div class="logo-text" id="logoText">난중</div>
 
-  <!-- 🔥 GitHub 내부 이미지 -->
+  <!-- 🔥 안정형 경로 -->
   <img
     id="logoImg"
     class="logo-img"
-    src="assets/img/mainhosino1.gif"
+    src="./assets/img/mainhosino1.gif"
     alt="logo"
   />
 </div>
 
-<!-- MAIN -->
 <div class="main">
   <h1>메인 화면</h1>
   <p>여기에 사이트 콘텐츠가 들어갑니다.</p>
 
-  <!-- 👉 페이지 이동 버튼 -->
   <button onclick="goPage1()">다음 페이지</button>
 </div>
 
@@ -90,9 +86,9 @@
   const logoText = document.getElementById('logoText');
   const logoImg = document.getElementById('logoImg');
 
-  // 🔥 로컬 이미지 경로 고정
-  const defaultImg = "assets/img/mainhosino1.gif";
-  const hoverImg = "assets/img/mainhosino2.jpg";
+  // 🔥 안전 경로 (./ 붙여서 GitHub Pages 대응)
+  const defaultImg = "./assets/img/mainhosino1.gif";
+  const hoverImg = "./assets/img/mainhosino2.jpg";
 
   logoText.addEventListener('mouseenter', () => {
     logoImg.src = hoverImg;
@@ -102,12 +98,13 @@
     logoImg.src = defaultImg;
   });
 
-  function goHome() {
-    window.location.href = "index.html";
-  }
+  // 🔥 GitHub Pages 안전 홈 이동
+  logoText.onclick = () => {
+    window.location.href = "/";
+  };
 
   function goPage1() {
-    window.location.href = "page1.html";
+    window.location.href = "./page1.html";
   }
 </script>
 
