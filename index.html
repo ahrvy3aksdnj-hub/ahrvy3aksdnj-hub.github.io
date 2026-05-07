@@ -11,7 +11,9 @@ body {
   background: #fff;
 }
 
-/* 상단바 */
+/* =========================
+   헤더
+========================= */
 .header {
   height: 70px;
   background: #fff;
@@ -20,14 +22,14 @@ body {
   padding: 0 20px;
 }
 
-/* 왼쪽 영역 */
 .header-left {
   display: flex;
   align-items: center;
+  gap: 2px;
 }
 
 /* =========================
-   Nan 로고 (기존 유지)
+   Nan + main 합체 버튼
 ========================= */
 .logo-box {
   display: flex;
@@ -41,142 +43,124 @@ body {
   height: 60px;
 }
 
-/* 기본 Nan2 */
-.logo-base {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  opacity: 1;
-  transition: opacity 0.3s ease;
+.main-image-box {
+  position: relative;
+  width: 80px;
+  height: 80px;
 }
 
-/* hover Nan1 */
+/* Nan */
+.logo-base,
 .logo-hover {
   position: absolute;
   width: 100%;
   height: 100%;
   object-fit: contain;
-  opacity: 0;
-  transition: opacity 0.3s ease;
+  transition: 0.3s;
 }
 
-.logo-box:hover .logo-base {
-  opacity: 0;
-}
+.logo-base { opacity: 1; }
+.logo-hover { opacity: 0; }
 
-.logo-box:hover .logo-hover {
-  opacity: 1;
-}
-
-/* =========================
-   ✅ main 이미지 추가
-========================= */
-
-.main-image-box {
-  position: relative;
-  width: 120px;
-  height: 60px;
-
-  /* Nan 로고 옆 간격 */
-  margin-left: 20px;
-
-  cursor: pointer;
-}
-
-/* 평소 main2 */
-.main2 {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-
-  opacity: 1;
-  transition: opacity 0.3s ease;
-}
-
-/* hover main1.gif */
+/* main */
+.main2,
 .main1 {
   position: absolute;
   width: 100%;
   height: 100%;
   object-fit: contain;
-
-  opacity: 0;
-  transition: opacity 0.3s ease;
+  transition: 0.3s;
 }
 
-/* hover */
-.main-image-box:hover .main2 {
-  opacity: 0;
-}
+.main2 { opacity: 1; }
+.main1 { opacity: 0; }
 
-.main-image-box:hover .main1 {
-  opacity: 1;
-}
+/* hover 공유 */
+.logo-box:hover .logo-base { opacity: 0; }
+.logo-box:hover .logo-hover { opacity: 1; }
+.logo-box:hover .main2 { opacity: 0; }
+.logo-box:hover .main1 { opacity: 1; }
 
-/* =========================
-   가로 메뉴
-========================= */
+/* 메뉴 */
 .catalog {
   display: flex;
-  align-items: center;
   gap: 28px;
-
   margin-left: 25px;
 }
 
 .catalog-item {
   cursor: pointer;
   font-size: 16px;
-  transition: 0.2s;
 }
 
 .catalog-item:hover {
   color: #666;
 }
 
-/* 콘텐츠 */
+/* =========================
+   🌊 타카나시 호시노 갤러리
+========================= */
+
 .content {
-  padding: 30px;
+  height: calc(100vh - 70px);
+  display: flex;
+  align-items: center;       /* 세로 중앙 */
+  justify-content: flex-start; /* 왼쪽 정렬 */
+  padding-left: 40px;
+  background: #fafafa;
+}
+
+.gallery {
+  display: flex;
+  gap: 20px;
+}
+
+/* 카드 */
+.card {
+  width: 500px;
+  height: 500px;
+  overflow: hidden;
+  border-radius: 14px;
+  background: #eee;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.12);
+  transition: 0.25s;
+}
+
+.card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: 0.25s;
+}
+
+.card:hover img {
+  transform: scale(1.05);
 }
 </style>
 </head>
 
 <body>
 
-<!-- 헤더 -->
+<!-- =========================
+     헤더
+========================= -->
 <div class="header">
-
   <div class="header-left">
 
-    <!-- 기존 Nan 로고 -->
     <div class="logo-box" onclick="goHome()">
 
       <div class="logo-wrap">
+        <img class="logo-base" src="images/Nan2.png">
+        <img class="logo-hover" src="images/Nan1.png">
+      </div>
 
-        <!-- 기본 -->
-        <img class="logo-base" src="images/Nan2.png" alt="Nan2">
-
-        <!-- hover -->
-        <img class="logo-hover" src="images/Nan1.png" alt="Nan1">
-
+      <div class="main-image-box">
+        <img class="main2" src="images/main2.jpg">
+        <img class="main1" src="images/main1.gif">
       </div>
 
     </div>
 
-    <!-- ✅ 새 main 이미지 -->
-    <div class="main-image-box">
-
-      <!-- 평소 -->
-      <img class="main2" src="images/main2.jpg" alt="main2">
-
-      <!-- hover -->
-      <img class="main1" src="images/main1.gif" alt="main1">
-
-    </div>
-
-    <!-- 메뉴 -->
     <div class="catalog">
       <div class="catalog-item">로아</div>
       <div class="catalog-item">유튜브</div>
@@ -185,17 +169,39 @@ body {
     </div>
 
   </div>
-
 </div>
 
-<!-- 콘텐츠 -->
+<!-- =========================
+     🌊 메인 (타카나시 호시노 갤러리)
+========================= -->
 <div class="content">
-  <h2>홈 화면</h2>
+  <div class="gallery" id="gallery"></div>
 </div>
 
 <script>
 function goHome() {
   location.reload();
+}
+
+const gallery = document.getElementById("gallery");
+
+function makeCard() {
+  const card = document.createElement("div");
+  card.className = "card";
+
+  const img = document.createElement("img");
+
+  // 타카나시 호시노 느낌 랜덤 이미지
+  const seed = Math.floor(Math.random() * 9999);
+  img.src = `https://source.unsplash.com/1000x1000/?anime,girl,blue,school&sig=${seed}`;
+
+  card.appendChild(img);
+  return card;
+}
+
+// 🔥 딱 3개만
+for (let i = 0; i < 3; i++) {
+  gallery.appendChild(makeCard());
 }
 </script>
 
