@@ -45,14 +45,13 @@ body {
   height: 60px;
 }
 
-/* 🔥 main 60x60 */
+/* main 60x60 */
 .main-image-box {
   position: relative;
   width: 60px;
   height: 60px;
 }
 
-/* Nan */
 .logo-base,
 .logo-hover {
   position: absolute;
@@ -65,7 +64,6 @@ body {
 .logo-base { opacity: 1; }
 .logo-hover { opacity: 0; }
 
-/* main */
 .main2,
 .main1 {
   position: absolute;
@@ -78,7 +76,6 @@ body {
 .main2 { opacity: 1; }
 .main1 { opacity: 0; }
 
-/* hover 공유 */
 .logo-box:hover .logo-base { opacity: 0; }
 .logo-box:hover .logo-hover { opacity: 1; }
 .logo-box:hover .main2 { opacity: 0; }
@@ -96,16 +93,20 @@ body {
 .catalog-item {
   cursor: pointer;
   font-size: 15px;
+  transition: 0.2s;
+}
+
+.catalog-item:hover {
+  opacity: 0.6;
 }
 
 /* =========================
-   🔍 검색창 (오른쪽 상단)
+   검색창
 ========================= */
 .search-box {
   position: absolute;
   top: 15px;
   right: 20px;
-
   display: flex;
   gap: 10px;
 }
@@ -128,13 +129,12 @@ body {
 }
 
 /* =========================
-   이미지 그리드 (구글 스타일)
+   이미지 그리드
 ========================= */
 .grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 12px;
-
   padding: 20px 40px 40px;
 }
 
@@ -182,16 +182,19 @@ body {
 
     </div>
 
+    <!-- =========================
+         카테고리 (링크 연결)
+    ========================= -->
     <div class="catalog">
-      <div class="catalog-item">로아</div>
-      <div class="catalog-item">유튜브</div>
-      <div class="catalog-item">네이버</div>
-      <div class="catalog-item">뮤직</div>
+      <div class="catalog-item" onclick="location.href='https://map.naver.com'">네이버</div>
+      <div class="catalog-item" onclick="location.href='https://www.youtube.com'">유튜브</div>
+      <div class="catalog-item" onclick="location.href='https://music.youtube.com'">뮤직</div>
+      <div class="catalog-item" onclick="location.href='https://github.com'">허브</div>
     </div>
 
   </div>
 
-  <!-- 🔍 오른쪽 상단 검색 -->
+  <!-- 검색 -->
   <div class="search-box">
     <input id="query" placeholder="타카나시 호시노 검색">
     <button onclick="searchImages()">검색</button>
@@ -211,7 +214,6 @@ function goHome() {
 
 const grid = document.getElementById("grid");
 
-/* 🔥 Google Custom Search API 기반 */
 async function searchImages() {
   const q = document.getElementById("query").value || "타카나시 호시노";
 
