@@ -15,90 +15,130 @@ body {
 .header {
   height: 70px;
   background: #fff;
-  border-bottom: 1px solid #000;
   display: flex;
   align-items: center;
   padding: 0 20px;
-  gap: 15px;
 }
 
-/* 로고 영역 */
+/* 왼쪽 영역 */
+.header-left {
+  display: flex;
+  align-items: center;
+}
+
+/* =========================
+   Nan 로고 (기존 유지)
+========================= */
 .logo-box {
   display: flex;
   align-items: center;
   cursor: pointer;
 }
 
-/* 🌊 로고 박스 (160x60) */
 .logo-wrap {
   position: relative;
   width: 160px;
   height: 60px;
 }
 
-/* 기본 Nan1 */
+/* 기본 Nan2 */
 .logo-base {
   position: absolute;
   width: 100%;
   height: 100%;
   object-fit: contain;
+  opacity: 1;
   transition: opacity 0.3s ease;
 }
 
-/* 변화 Nan2 */
+/* hover Nan1 */
 .logo-hover {
   position: absolute;
   width: 100%;
   height: 100%;
   object-fit: contain;
-
-  clip-path: inset(100% 0 0 0);
+  opacity: 0;
+  transition: opacity 0.3s ease;
 }
 
-/* hover 시 기본 숨김 */
 .logo-box:hover .logo-base {
   opacity: 0;
 }
 
-/* 🌊 물 차오르는 효과 */
 .logo-box:hover .logo-hover {
-  animation: waterFill 0.7s ease forwards;
+  opacity: 1;
 }
 
-@keyframes waterFill {
-  0% {
-    clip-path: inset(100% 0 0 0);
-  }
-  100% {
-    clip-path: inset(0 0 0 0);
-  }
-}
+/* =========================
+   ✅ main 이미지 추가
+========================= */
 
-/* 사이드바 */
-.sidebar {
-  position: fixed;
-  top: 70px;
-  left: 0;
-  width: 180px;
-  height: 100%;
-  background: #fff;
-  border-right: 1px solid #000;
-  padding-top: 20px;
-}
+.main-image-box {
+  position: relative;
+  width: 120px;
+  height: 60px;
 
-.menu-item {
-  padding: 15px;
+  /* Nan 로고 옆 간격 */
+  margin-left: 20px;
+
   cursor: pointer;
 }
 
-.menu-item:hover {
-  background: #eee;
+/* 평소 main2 */
+.main2 {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+
+  opacity: 1;
+  transition: opacity 0.3s ease;
+}
+
+/* hover main1.gif */
+.main1 {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+/* hover */
+.main-image-box:hover .main2 {
+  opacity: 0;
+}
+
+.main-image-box:hover .main1 {
+  opacity: 1;
+}
+
+/* =========================
+   가로 메뉴
+========================= */
+.catalog {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+
+  margin-left: 25px;
+}
+
+.catalog-item {
+  cursor: pointer;
+  font-size: 16px;
+  transition: 0.2s;
+}
+
+.catalog-item:hover {
+  color: #666;
 }
 
 /* 콘텐츠 */
 .content {
-  margin-left: 200px;
-  padding: 20px;
+  padding: 30px;
 }
 </style>
 </head>
@@ -108,23 +148,44 @@ body {
 <!-- 헤더 -->
 <div class="header">
 
-  <div class="logo-box" onclick="goHome()">
+  <div class="header-left">
 
-    <div class="logo-wrap">
-      <img class="logo-base" src="images/Nan1.png" alt="Nan1">
-      <img class="logo-hover" src="images/Nan2.png" alt="Nan2">
+    <!-- 기존 Nan 로고 -->
+    <div class="logo-box" onclick="goHome()">
+
+      <div class="logo-wrap">
+
+        <!-- 기본 -->
+        <img class="logo-base" src="images/Nan2.png" alt="Nan2">
+
+        <!-- hover -->
+        <img class="logo-hover" src="images/Nan1.png" alt="Nan1">
+
+      </div>
+
+    </div>
+
+    <!-- ✅ 새 main 이미지 -->
+    <div class="main-image-box">
+
+      <!-- 평소 -->
+      <img class="main2" src="images/main2.jpg" alt="main2">
+
+      <!-- hover -->
+      <img class="main1" src="images/main1.gif" alt="main1">
+
+    </div>
+
+    <!-- 메뉴 -->
+    <div class="catalog">
+      <div class="catalog-item">로아</div>
+      <div class="catalog-item">유튜브</div>
+      <div class="catalog-item">네이버</div>
+      <div class="catalog-item">뮤직</div>
     </div>
 
   </div>
 
-</div>
-
-<!-- 사이드 -->
-<div class="sidebar">
-  <div class="menu-item">로아</div>
-  <div class="menu-item">유튜브</div>
-  <div class="menu-item">네이버</div>
-  <div class="menu-item">뮤직</div>
 </div>
 
 <!-- 콘텐츠 -->
