@@ -8,7 +8,7 @@
 body {
   margin: 0;
   font-family: Arial;
-  background: #fff;
+  background: #fafafa;
 }
 
 /* =========================
@@ -20,6 +20,7 @@ body {
   display: flex;
   align-items: center;
   padding: 0 20px;
+  border-bottom: 1px solid #eee;
 }
 
 .header-left {
@@ -29,7 +30,7 @@ body {
 }
 
 /* =========================
-   Nan + main 합체 버튼
+   Nan + main 버튼
 ========================= */
 .logo-box {
   display: flex;
@@ -43,10 +44,11 @@ body {
   height: 60px;
 }
 
+/* 🔥 main 60x60 적용 */
 .main-image-box {
   position: relative;
-  width: 80px;
-  height: 80px;
+  width: 60px;
+  height: 60px;
 }
 
 /* Nan */
@@ -90,40 +92,50 @@ body {
 
 .catalog-item {
   cursor: pointer;
-  font-size: 16px;
-}
-
-.catalog-item:hover {
-  color: #666;
 }
 
 /* =========================
-   🌊 타카나시 호시노 갤러리
+   🔍 검색 영역 (구글 스타일)
 ========================= */
-
-.content {
-  height: calc(100vh - 70px);
+.search-box {
+  margin: 20px 40px;
   display: flex;
-  align-items: center;       /* 세로 중앙 */
-  justify-content: flex-start; /* 왼쪽 정렬 */
-  padding-left: 40px;
-  background: #fafafa;
+  gap: 10px;
 }
 
-.gallery {
-  display: flex;
-  gap: 20px;
+.search-box input {
+  width: 300px;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
 }
 
-/* 카드 */
+.search-box button {
+  padding: 10px 15px;
+  border: none;
+  border-radius: 8px;
+  background: #111;
+  color: #fff;
+  cursor: pointer;
+}
+
+/* =========================
+   이미지 결과 (구글 느낌)
+========================= */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  padding: 0 40px 40px;
+}
+
 .card {
-  width: 500px;
-  height: 500px;
+  width: 100%;
+  height: 300px;
   overflow: hidden;
-  border-radius: 14px;
+  border-radius: 12px;
   background: #eee;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.12);
-  transition: 0.25s;
+  cursor: pointer;
 }
 
 .card img {
@@ -142,7 +154,7 @@ body {
 <body>
 
 <!-- =========================
-     헤더
+   헤더
 ========================= -->
 <div class="header">
   <div class="header-left">
@@ -172,36 +184,59 @@ body {
 </div>
 
 <!-- =========================
-     🌊 메인 (타카나시 호시노 갤러리)
+   🔍 검색창
 ========================= -->
-<div class="content">
-  <div class="gallery" id="gallery"></div>
+<div class="search-box">
+  <input id="query" placeholder="타카나시 호시노 검색">
+  <button onclick="searchImages()">검색</button>
 </div>
+
+<!-- =========================
+   결과 영역
+========================= -->
+<div class="grid" id="grid"></div>
 
 <script>
 function goHome() {
   location.reload();
 }
 
-const gallery = document.getElementById("gallery");
+const grid = document.getElementById("grid");
 
-function makeCard() {
-  const card = document.createElement("div");
-  card.className = "card";
+/* 🔥 Google Custom Search API 구조 */
+async function searchImages() {
+  const q = document.getElementById("query").value || "타카나시 호시노";
 
-  const img = document.createElement("img");
+  grid.innerHTML = "";
 
-  // 타카나시 호시노 느낌 랜덤 이미지
-  const seed = Math.floor(Math.random() * 9999);
-  img.src = `https://source.unsplash.com/1000x1000/?anime,girl,blue,school&sig=${seed}`;
+  // ⚠️ 여기에 너 API 키 넣어야 함
+  const API_KEY = "YOUR_API_KEY";
+  const CX = "YOUR_CX_ID";
 
-  card.appendChild(img);
-  return card;
-}
+  const url = `https://www.googleapis.com/customsearch/v1?q=${q}&cx=${CX}&key=${API_KEY}&searchType=image&num=9`;
 
-// 🔥 딱 3개만
-for (let i = 0; i < 3; i++) {
-  gallery.appendChild(makeCard());
+  try {
+    const res = await fetch(url);
+    const data = await res.json();
+
+    const items = data.items || [];
+
+    items.slice(0, 9).forEach(item => {
+      const card = document.createElement("div");
+      card.className = "card";
+
+      const img = document.createElement("img");
+      img.src = item.link;
+
+      card.appendChild(img);
+      grid.appendChild(card);
+    });
+
+  } catch (e) {
+    console.log(e);
+
+    grid.innerHTML = "<p>이미지를 불러올 수 없습니다 (API 설정 필요)</p>";
+  }
 }
 </script>
 
