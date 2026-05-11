@@ -183,15 +183,10 @@ body{
 
 <body>
 
-<!-- =========================
-   헤더
-========================= -->
-
 <div class="header">
 
   <div class="header-left">
 
-    <!-- 로고 -->
     <div class="logo-box" onclick="goHome()">
 
       <div class="logo-wrap">
@@ -206,7 +201,6 @@ body{
 
     </div>
 
-    <!-- 메뉴 -->
     <div class="catalog">
 
       <div class="catalog-item"
@@ -228,7 +222,6 @@ body{
 
   </div>
 
-  <!-- 검색 -->
   <div class="search-box">
 
     <input
@@ -245,7 +238,6 @@ body{
 
 </div>
 
-<!-- 결과 -->
 <div class="grid" id="grid"></div>
 
 <script>
@@ -257,20 +249,14 @@ function goHome(){
 const grid =
 document.getElementById("grid");
 
-/* =========================
-   엔터 검색
-========================= */
-
 function handleEnter(event){
-
   if(event.key === "Enter"){
     searchCharacter();
   }
-
 }
 
 /* =========================
-   로아 검색
+   🔥 수정 핵심 부분
 ========================= */
 
 async function searchCharacter(){
@@ -288,7 +274,7 @@ async function searchCharacter(){
   try{
 
     const res = await fetch(
-      `http://localhost:3000/character/${encodeURIComponent(q)}`
+      `https://lostark-server.onrender.com/character/${encodeURIComponent(q)}`
     );
 
     const data = await res.json();
@@ -315,18 +301,11 @@ async function searchCharacter(){
       card.innerHTML = `
         <h2>${char.CharacterName}</h2>
 
-        <p>
-        서버 : ${char.ServerName}
-        </p>
+        <p>서버 : ${char.ServerName}</p>
 
-        <p>
-        직업 : ${char.CharacterClassName}
-        </p>
+        <p>직업 : ${char.CharacterClassName}</p>
 
-        <p>
-        아이템 레벨 :
-        ${char.ItemAvgLevel}
-        </p>
+        <p>아이템 레벨 : ${char.ItemAvgLevel}</p>
       `;
 
       grid.appendChild(card);
